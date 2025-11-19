@@ -14,7 +14,6 @@ local Window = Library:CreateWindow({
 
 local MainTab = Window:AddTab("Main", "home", "Main features")
 
--- Левый столбик: Camera
 local LeftGroupBox = MainTab:AddLeftGroupbox("Camera", "camera")
 LeftGroupBox:AddToggle("ThirdPerson", {
    Text = "Third Person",
@@ -30,10 +29,8 @@ LeftGroupBox:AddToggle("ThirdPerson", {
    end,
 })
 
--- Правый столбик: FOV и Outdoor Ambient Light
 local RightGroupBox = MainTab:AddRightGroupbox("Visuals", "eye")
 
--- Ползунок FOV (10–120)
 RightGroupBox:AddSlider("FOV", {
    Text = "Field of View (FOV)",
    Default = 70,
@@ -46,7 +43,6 @@ RightGroupBox:AddSlider("FOV", {
    end
 })
 
--- Ползунок Outdoor Ambient Light (контрастность, 0–255)
 RightGroupBox:AddSlider("AmbientLight", {
    Text = "Contrast (Outdoor Ambient Light)",
    Default = 135,
@@ -55,7 +51,7 @@ RightGroupBox:AddSlider("AmbientLight", {
    Rounding = 1,
    Compact = false,
    Callback = function(Value)
-      -- Преобразуем значение в диапазон 0–1 для Color3
+
       local normalizedValue = Value / 255
       game:GetService("Lighting").OutdoorAmbient = Color3.new(normalizedValue, normalizedValue, normalizedValue)
    end
