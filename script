@@ -1,0 +1,62 @@
+local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+
+local plr = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local Window = Library:CreateWindow({
+   Title = "by loos",
+   Footer = "SCRIPT FOR KIRILL  (v1.0.1)",
+   ToggleKeybind = Enum.KeyCode.RightShift,
+   center = true,
+   AutoShow = true
+})
+
+local MainTab = Window:AddTab("Main", "home", "Main features")
+
+-- Левый столбик: Camera
+local LeftGroupBox = MainTab:AddLeftGroupbox("Camera", "camera")
+LeftGroupBox:AddToggle("ThirdPerson", {
+   Text = "Third Person",
+   Default = false,
+   Callback = function(Value)
+      if Value then
+         plr.CameraMode = "Classic"
+         plr.CameraMaxZoomDistance = 50
+         plr.CameraMinZoomDistance = 0.5
+      else
+         plr.CameraMode = "LockFirstPerson"
+      end
+   end,
+})
+
+-- Правый столбик: FOV и Outdoor Ambient Light
+local RightGroupBox = MainTab:AddRightGroupbox("Visuals", "eye")
+
+-- Ползунок FOV (10–120)
+RightGroupBox:AddSlider("FOV", {
+   Text = "Field of View (FOV)",
+   Default = 70,
+   Min = 10,
+   Max = 120,
+   Rounding = 1,
+   Compact = false,
+   Callback = function(Value)
+      camera.FieldOfView = Value
+   end
+})
+
+-- Ползунок Outdoor Ambient Light (контрастность, 0–255)
+RightGroupBox:AddSlider("AmbientLight", {
+   Text = "Contrast (Outdoor Ambient Light)",
+   Default = 135,
+   Min = 0,
+   Max = 255,
+   Rounding = 1,
+   Compact = false,
+   Callback = function(Value)
+      -- Преобразуем значение в диапазон 0–1 для Color3
+      local normalizedValue = Value / 255
+      game:GetService("Lighting").OutdoorAmbient = Color3.new(normalizedValue, normalizedValue, normalizedValue)
+   end
+})
